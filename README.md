@@ -1,7 +1,25 @@
-Telegram bot simple template use Docker build and docker-compose
+# Telegram bot
+## Simple template use Docker build and docker-compose
 
-1. git clone 
-2. mv env.example .env
-3. Change .env past your TOKEN
-4. docker-compose up -d
+### Installation
+```sh
+mkdir bot && cd $_
+git clone https://github.com/akmalovaa/telegrambot-template-docker .
+mv env.example .env
+nano .env
+```
+
+Change .env past your TOKEN from BotFather (save and quit)
+
+```sh
+docker-compose up -d
+```
+
+
+
+### Сhecking the work
+```sh
+docker ps
+cat logs/bot.log
+```
 
