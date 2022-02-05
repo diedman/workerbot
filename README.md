@@ -1,4 +1,4 @@
-# Telegram bot
+# Telegram bot (aiogram)
 ## Simple template use Docker build and docker-compose
 
 ### Installation
