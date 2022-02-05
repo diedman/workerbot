@@ -1,4 +1,4 @@
-Telegram bot test CI/CD
+Telegram bot simple template use Docker build and docker-compose
 
 1. git clone 
 2. mv env.example .env
