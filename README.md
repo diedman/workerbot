@@ -23,3 +23,7 @@ docker ps
 cat logs/bot.log
 ```
 
+### project plans
+- Make Gitlab CI/CD
+- Add data base
+- Add Flask web intefaces
