@@ -3,4 +3,5 @@
 /__pycache__/
 /venv/
 /.env
+/.python-version
 /logs/bot.log

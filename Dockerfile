@@ -1,9 +1,10 @@
-FROM python:3.9-slim-buster
+FROM python:3.10.4-slim
 WORKDIR /app
-COPY requirements.txt /app/requirements.txt
+COPY . .
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r /app/requirements.txt
-COPY *.py /app/
-COPY .env /app/
+    && pip install --no-cache-dir poetry 
+
+RUN poetry config virtualenvs.create false
+RUN poetry install
 
 CMD [ "python", "main.py" ]
