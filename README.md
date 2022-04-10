@@ -7,7 +7,7 @@
 ```sh
 mkdir bot && cd $_
 git clone https://github.com/akmalovaa/telegrambot-template-docker .
-mv env.example .env
+cp env.example .env
 nano .env
 ```
 
