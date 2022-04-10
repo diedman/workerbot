@@ -21,7 +21,7 @@ docker-compose up -d
 ### Сhecking the work
 ```sh
 docker ps
-cat logs/bot.log
+tail -f logs/bot.log
 ```
 
 ### Project plans
