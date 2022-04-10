@@ -1,5 +1,6 @@
 # Telegram bot (aiogram)
 ## Simple template use Docker build and docker-compose
+## using poetry
 
 ### Installation
 ```sh
