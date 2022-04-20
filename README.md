@@ -2,6 +2,8 @@
 ## Simple template using:
 - docker-compose
 - poetry
+- loguru
+- aiogram
 
 ### Installation
 ```sh
