@@ -1,5 +1,5 @@
-# Telegram bot (aiogram) Docker
-## Simple template using:
+# Simple template Telegram bot 
+## using:
 - docker-compose
 - poetry
 - loguru
