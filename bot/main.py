@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from dotenv import load_dotenv
 from loguru import logger
 
-logger.add('logs/bot.log', format='{time:DD-MM-YY HH:mm:ss} - {level} - {message}', level='INFO', rotation='1 week', compression='zip')
+logger.add('bot/logs/bot.log', format='{time:DD-MM-YY HH:mm:ss} - {level} - {message}', level='INFO', rotation='1 week', compression='zip')
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -29,4 +29,3 @@ async def echo(message: types.Message):
 if __name__ == '__main__':
     logger.info("Start Bot")
     executor.start_polling(dp)
-    logger.info("Exit Bot")

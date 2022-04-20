@@ -2,6 +2,6 @@
 /.idea/
 /__pycache__/
 /venv/
-/.env
 /.python-version
-/logs/bot.log
+/bot/.env
+/bot/logs/bot.log
