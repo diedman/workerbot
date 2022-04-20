@@ -8,6 +8,7 @@ authors = ["Akmalov <artur@akmalov.com>"]
 python = "^3.10"
 aiogram = "*"
 python-dotenv = "^0.19.2"
+loguru = "^0.6.0"
 
 
 [build-system]

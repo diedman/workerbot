@@ -1,10 +1,12 @@
 import asyncio
-import logs
 import sys
 import os
 
 from aiogram import Bot, Dispatcher, executor, types
 from dotenv import load_dotenv
+from loguru import logger
+
+logger.add('logs/bot.log', format='{time:DD-MM-YY HH:mm:ss} - {level} - {message}', level='INFO', rotation='1 week', compression='zip')
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
@@ -21,8 +23,10 @@ async def send_welcome(message: types.Message):
 @dp.message_handler()
 async def echo(message: types.Message):
     await message.answer(message.text)
-    logs.track(f"{message.from_user.id} Write: {message.text}")
+    logger.info(f"{message.from_user.id} Write: {message.text}")
 
 
 if __name__ == '__main__':
+    logger.info("Start Bot")
     executor.start_polling(dp)
+    logger.info("Exit Bot")
