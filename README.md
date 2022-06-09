@@ -16,7 +16,7 @@ nano .env
 Change .env past your TOKEN from BotFather (save and quit)
 
 
-## starting
+## Starting
 ```sh
 docker-compose up -d
 ```
