@@ -1,5 +1,5 @@
 import pandas as pd
-import gspread, config
+import gspread, config, os
 from datetime import datetime
 from pymongo import MongoClient
 
@@ -8,7 +8,7 @@ client = MongoClient(config.mongodbip, config.mongodbport)
 db = client['users_db']
 lid_collection = db['lid_collection']
 user_collection = db['users_collection']
-gc = gspread.service_account(filename='credentials.json')
+gc = gspread.service_account(filename=os.getcwd() + '/bot/services.json')
 
 def del_all_sheet():
     sheets = gc.list_spreadsheet_files()

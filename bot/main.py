@@ -16,6 +16,8 @@ logging.basicConfig(level=logging.INFO)
 
 load_dotenv()
 
+root = 384860553
+
 #Configure fsm_storage
 storage = MemoryStorage()
 
@@ -25,6 +27,7 @@ dp = Dispatcher(bot, storage=storage)
 
 class RegUserStatesGroups(StatesGroup):
     start = State()
+    paswd = State()
     name = State()
     email = State()
 
@@ -39,6 +42,8 @@ class SaveLidStatesGroups(StatesGroup):
     source = State()
     date = State()
     time = State()
+
+
 
 @dp.message_handler(commands=['start', 'help'], state='*')
 async def send_welcome(message: types.Message):
@@ -59,8 +64,9 @@ async def user_registration(message: types.Message, state: FSMContext):
         await state.finish()
         await SaveLidStatesGroups.logined.set()
     else:
-        await message.answer("Отлично! Давай знакомится, напиши мне свои ФИО:")
-        await RegUserStatesGroups.name.set()
+        await message.answer("Введи пароль!")
+        await RegUserStatesGroups.paswd.set()
+
 
 @dp.message_handler(lambda message: message.text == 'Вход', state=RegUserStatesGroups.start)
 async def user_login(message: types.Message):
@@ -68,8 +74,15 @@ async def user_login(message: types.Message):
         await message.answer(f"Добро пожаловать, {db_utils.user_get_name(message.from_user.id)}!", reply_markup=keyboards.work_keyboard)
         await SaveLidStatesGroups.logined.set()
     else:
-        await message.answer("Не получилось! Давай знакомится, напиши мне свои ФИО:")
+        await message.answer("Не получилось, введи пароль!")
+        await RegUserStatesGroups.paswd.set()
+
+@dp.message_handler(content_types=['text'], state=RegUserStatesGroups.paswd,)
+async def pass_check(message: types.Message, state: FSMContext):
+    if(message.text == os.getenv('PASS')):
+        await message.answer("Отлично! Давай знакомится, напиши мне свои ФИО:")
         await RegUserStatesGroups.next()
+
 
 @dp.message_handler(content_types=['text'], state=RegUserStatesGroups.name,)
 async def user_name_save(message: types.Message, state: FSMContext):
@@ -87,7 +100,7 @@ async def user_email_save(message: types.Message, state: FSMContext):
         data['email'] = message.text
 
 
-    await message.answer(f"Поздравляю, {data['name']}, вы успешно зарегистрированны!", reply_markup=keyboards.work_keyboard)
+    await message.answer(f"Поздравляю, {data['name']}, вы успешно зарегистрированы!", reply_markup=keyboards.work_keyboard)
     await state.finish()
     db_utils.save_user(data)
     await SaveLidStatesGroups.logined.set()

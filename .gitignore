@@ -7,3 +7,7 @@
 /bot/logs/bot.log
 bot/__pycache__
 .vscode
+bot/credentials.json
+bot/credentials.json
+bot/access.json
+bot/services.json

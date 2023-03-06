@@ -1,2 +1,2 @@
-mongodbip = 'mongodb'
+mongodbip = 'localhost'
 mongodbport = 27017
