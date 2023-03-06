@@ -5,3 +5,5 @@
 /.python-version
 /bot/.env
 /bot/logs/bot.log
+bot/__pycache__
+.vscode

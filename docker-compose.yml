@@ -4,5 +4,23 @@ services:
   bot:
     container_name: tg_bot
     build: ./bot
+    env_file:
+      - ./bot/.env
     volumes:
       - ./bot/logs/:/app/bot/logs
+    # depends_on:
+    #   - mongo
+
+  # mongo:
+  #   container_name: mongodb
+  #   # Сервис работает на основе официального docker образа mongo, который будет скачан с dockerhub.io
+  #   # при первичной инициализации данной конфигурации через `docker-compose`
+  #   image: mongo
+  #   # По-умолчанию MongoDB работает на порту 27017 - мы также пробрасываем его на локальную машину
+  #   # на случай если понадобится подключиться к MongoDB с нашей машины с помощью какой-либо
+  #   # клиентской утилиты
+  #   ports:
+  #     - 27017:27017
+
+  #   volumes:
+  #     - /data/mongodb/db:/data/db

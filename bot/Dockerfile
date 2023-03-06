@@ -4,7 +4,6 @@ COPY . .
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir poetry 
 
-RUN poetry config virtualenvs.create false
-RUN poetry install
+RUN pip install -r req.txt
 
 CMD [ "python", "main.py" ]
