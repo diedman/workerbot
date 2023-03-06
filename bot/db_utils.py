@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import config
+import urllib.parse
 
 global db
 client = MongoClient(config.mongodbip, config.mongodbport)
@@ -26,6 +27,7 @@ def save_user(data):
     })
 
 def save_lid(data):
+    url = 'https://api.whatsapp.com/send/?phone=+7'+data['phone']+'&text=' + urllib.parse.quote('Добрый день!')
     collection = db['lid_collection']
     collection.insert_one({
         'date_reg': data['date_reg'],
@@ -34,11 +36,13 @@ def save_lid(data):
         'direction': data['direction'],
         'city': data['city'],
         'name': data['name'],
-        'phone': data['phone'],
+        'phone': '89' + data['phone'],
         'citizenship': data['citizenship'],
         'source': data['source'],
         'date_interview': data['date'],
-        'time_interview': data['time']
+        'time_interview': data['time'],
+        'sheet': False,
+        'whatsapp': '=ГИПЕРССЫЛКА("' + url + '", "Написать")'
     })
 
 

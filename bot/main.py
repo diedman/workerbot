@@ -82,6 +82,8 @@ async def pass_check(message: types.Message, state: FSMContext):
     if(message.text == os.getenv('PASS')):
         await message.answer("Отлично! Давай знакомится, напиши мне свои ФИО:")
         await RegUserStatesGroups.next()
+    else:
+        await message.answer("Не получилось, попробуй еще раз!")
 
 
 @dp.message_handler(content_types=['text'], state=RegUserStatesGroups.name,)
@@ -99,10 +101,10 @@ async def user_email_save(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['email'] = message.text
 
-
     await message.answer(f"Поздравляю, {data['name']}, вы успешно зарегистрированы!", reply_markup=keyboards.work_keyboard)
     await state.finish()
     db_utils.save_user(data)
+    sheet_util.create_sheet(message.from_user.id)
     await SaveLidStatesGroups.logined.set()
 
 @dp.message_handler(lambda message: message.text == 'Сохранить лид', state=SaveLidStatesGroups.logined)
@@ -112,8 +114,8 @@ async def lid_add(message: types.Message):
 
 @dp.message_handler(lambda message: message.text == 'Мой отчет', state=SaveLidStatesGroups.logined)
 async def get_report(message: types.Message):
-    await message.answer('Твой отчет начал формироваться надо чуток подождать)')
-    await bot.send_message(message.from_user.id, 'Твой отчет доступен по ссылке:\n' + sheet_util.get_sheet(message.from_user.id))
+    await message.answer('Твой отчет начал обновляться, надо чуток подождать)')
+    await bot.send_message(message.from_user.id, 'Твой отчет доступен по ссылке:\n' + sheet_util.update_sheet(message.from_user.id))
 
 @dp.message_handler(content_types=['text'], state=SaveLidStatesGroups.project)
 async def lid_project_choice(message: types.Message, state: FSMContext):

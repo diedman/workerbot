@@ -15,35 +15,28 @@ def del_all_sheet():
     for i in sheets:
         gc.del_spreadsheet(i['id'])
 
-def get_sheet(user_id):
-
-    date = datetime.now().strftime("%d-%m-%Y")
-
+def create_sheet(user_id):
+    columns = ['Дата регистрации', 'Проект', 'Направление', 'Город', 'ФИО', 'Телефон', 'Гражданство', 'Источник', 'Дата собеседования', 'Время собеседования','Написать в WhastApp', 'Комментарий', 'Статус']
     user = user_collection.find_one({'user_id': user_id})
-    user_email = user['email']
+    sh = gc.create(user['name'])
+    wh = sh.get_worksheet(0)
+    wh.insert_row(columns)
+    sh.share(user['email'], perm_type='user', role='writer')
 
-    columns = ['Дата регистрации', 'Проект', 'Направление', 'Город', 'ФИО', 'Телефон', 'Гражданство', 'Источник', 'Дата собеседования', 'Время собеседования']
-
-    # Получение данных из коллекции MongoDB в виде DataFrame
-    data = pd.DataFrame(list(lid_collection.find({'user_id': user_id}, {'_id': False, 'user_id': False})))
-    print(data)
-
-    #Создание документа и его открытие
-    sh = gc.create(date)
-    sh = gc.open(date)
-
-    #Получение первого листа документа
+def update_sheet(user_id):
+    user = user_collection.find_one({'user_id': user_id})
+    user_lid = lid_collection.find({'user_id': user_id, 'sheet': False}, {'_id': False, 'user_id': False, 'sheet': False})
+    data = pd.DataFrame(list(user_lid))
+    sh = gc.open(user['name'])
     worksheet = sh.get_worksheet(0)
-
-    #Запись данных из БД построчно
     for values in data.values:
-        worksheet.insert_row(values.tolist())
-
-    #Шапка
-    worksheet.insert_row(columns)
-
-    #Пердоставление доступа
-    sh.share(user_email, perm_type='user', role='writer')
-    #Ссылка
+        worksheet.insert_row(values.tolist(), 2, value_input_option='USER_ENTERED')
+    lid_collection.update_many(
+        {
+            'user_id': user_id,
+            'sheet': False
+        },
+        {
+            '$set' : {'sheet': True}
+        })
     return "https://docs.google.com/spreadsheets/d/%s" % sh.id
-
